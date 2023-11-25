@@ -15,7 +15,7 @@ Main features are:
 
 ## Usage
 You can install this library directly from PlatformIO registry or copy TinyDecisionTreeClassifier.h and TinyDecisionTreeClassifier.cpp manually.
-Before writing your own code i recommend checking out the examples first. There is activity recognition example in examples/sitStandWalkClassificationOnNrf52840.
+Before writing your own code I recommend checking out the examples first. There is physical activity recognition example in examples/sitStandWalkClassificationOnNrf52840.
 
 ## Benchmarking
 The following table show the maximum training time on different mcus, the labels and data were generated using random() function. In practice training times 
@@ -32,16 +32,17 @@ You can change Treetype from int8_t to float and see how it changes the performa
 Very fast decision tree training thanks to higher Esp32 clock speed.
 
 ### benchmarkingOnNrf52840
-Nrf52840 is a good compromise between the speed and power consumption. Also it is often used in smartwatches.
+Nrf52840 is a good compromise between speed and power consumption. Also, it is often used in smartwatches.
 
 ### binaryPhysicalActivityClassificationOnNrf52840
 
-MPU6050 accelerometer needed to measure the 3 axis acceleration. Any other accel is ok if you can make it work.  9 features are extracted in total, 3 for each axis: mean, variance, average. Difference between the current and the previous sample.
+MPU6050 accelerometer is needed to measure the 3 axis acceleration. Any other accel is ok, if you can make it work.  9 features are extracted in total, 3 for each axis: mean, variance and average difference between the current and the previous sample.
 
-After the power is on, the example records data for the first class for 90s, then for the second class. Then automatically classifies the incoming data in a while loop. After power on you can for example put an accelerometer in idle position. After the 90s you can start moving it. When the data are measured and the training is complete, the device classifies input in while loop. The LED blinking speed depends on the classified class. 
+After the power is on, the example records data labeled as class 0 for 90s, then the same for class 1. Then automatically classifies the incoming data in a while loop. 
+After power is on you can put an accelerometer in idle position. After the 90s you can rotate it by 90 degrees. When the data are measured and the training is complete, the device classifies input in while loop(if the accel is rotated by 90 degree). You can use the similar approach to classify the physical activity(ensure that the accelerometer is in different positions during each training period, so it is not classifying based on mean value only). The LED blinking speed depends on the classified class. 
 
 I managed to classify activity/no activity with this code. You can check the tree that was built in serial terminal.
 
 ### sitStandWalkClassificationOnNrf52840
 
-Again, accelerometer is required. This time there are 3 classes and the time interval is 150s. It is possible to classify sit/walk/stand with this code, however while recording the data you should ensure that the accelerometer is in different positions during each training period.(So it is not classifying based on mean value only)
+Again, accelerometer is required. This time there are 3 classes and the time interval is around 150s. It is possible to classify sit/walk/stand with this code, however while recording the data you should ensure that the accelerometer is in different positions during each training period.(So it is not classifying based on mean value only). If you want to change the number of classes, use TREE_NUMBER_OF_CLASSES
