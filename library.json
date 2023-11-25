@@ -1,0 +1,24 @@
+{
+    "name": "TinyDecisionTree",
+    "version": "1.0.0",
+    "description": "Tiny library for training decision trees on the edge",
+    "keywords": "TinyML, Decision Tree, Machine learning",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/allexoK/TinyDecisionTreeClassifier.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Aleksei Karavaev",
+        "email": "alexok997@gmail.com",
+        "maintainer": true
+      }
+    ],
+    "license": "Apache 2.0",
+    "dependencies": {
+    },
+    "frameworks": "arduino",
+    "platforms": "*"
+  }
