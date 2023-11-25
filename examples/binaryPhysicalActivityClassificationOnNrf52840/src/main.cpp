@@ -125,7 +125,7 @@ void loop() {
       Y[i*(k+1)][0]=k;
     }
     Serial.println("Recording test data");
-    for(uint32_t i=0;i<(TRREE_TRAINING_TIME_SECONDS/WINDOW_SIZE_SECONDS);i++){
+    for(uint32_t i=0;i<(TRREE_TEST_TIME_SECONDS/WINDOW_SIZE_SECONDS);i++){
       for(uint32_t j=0;j<SAMPLING_FREQENCY*WINDOW_SIZE_SECONDS;j++){
         mpu6050.update();
         aXbuffer[j]=mpu6050.getRawAccX();
@@ -193,7 +193,7 @@ void loop() {
         aZbuffer[j]=mpu6050.getRawAccZ();
         delay(1000/SAMPLING_FREQENCY);
         blinkCtr++;
-        if(blinkCtr>(6)/(k+1)){
+        if(blinkCtr>(6)/((k+1)*(k+1))){
           digitalWrite(STATUS_LED_PIN,ledstate);
           ledstate=!ledstate;
           blinkCtr=0;
