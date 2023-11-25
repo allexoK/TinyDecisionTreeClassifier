@@ -1,7 +1,7 @@
 {
     "name": "TinyDecisionTree",
     "version": "1.0.0",
-    "description": "Tiny library for training decision trees on the edge",
+    "description": "Tiny library for training decision trees on the edge.",
     "keywords": "TinyML, Decision Tree, Machine learning",
     "repository":
     {
