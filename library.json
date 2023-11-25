@@ -17,7 +17,7 @@
         "maintainer": true
       }
     ],
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "dependencies": {
     },
     "frameworks": ["Arduino"],
