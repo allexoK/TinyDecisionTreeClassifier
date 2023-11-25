@@ -20,7 +20,7 @@ Before writing your own code i recommend checking out the examples first. There 
 ## Benchmarking
 The following table show the maximum training time on different mcus, the labels and data were generated using random() function. In practice training times 
 are usually shorter.
-![Benchmarking results](img/Training time Arduino UNO, Esp32, Nrf52840.png)
+![Benchmarking](img/benchmarking.png)
 
 ## Examples
 There are several examples available.
