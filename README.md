@@ -5,16 +5,16 @@ TinyDecisionTreeClassifier is a simple but elegant standalone library for traini
 
 Main features are:
 - Based around classic C4.5 decision tree algorithm for continious variables.
-- This is a standalone library. Since the library depends only on <stdint.h> and <stddef.h> it can easily be ported to other frameworks like Mbed. 
-- Fast and small. Checkout the benchmarking examples for Arduino Uno, Esp32 and NRF52840 provided in examples folder.
-- Simple to use. I tried to make the methods similar to the DecisionTreeClassifier from scikit-learn. If you are familiar with it you will quickly recognize the familiar names like fit(), predict() and score()
-- The average comlexity is O(Nlog(N)) (because of the quicksort)
+- This is a standalone library. Since the library depends only on <stdint.h> and <stddef.h> it can easily be ported to other frameworks like Mbed/ESP-IDF. 
+- Fast and small. Checkout the benchmarking examples for Arduino Uno, Esp32 and NRF52840 provided in examples folder and the benchmarking graph.
+- Simple to use. I tried to make the methods similar to the DecisionTreeClassifier from scikit-learn. If you ever used it, you will quickly recognize the familiar names like fit(), predict() and score().
+- The average comlexity is O(Nlog(N)) (because of the quicksort).
 - Template usage allows to train 8-bit models, which boosts performance on 8-bit MCUs.
-- Trained tree visualisation is supported via plot() method
+- Trained tree visualisation is supported via plot() method.
 
 
 ## Usage
-You can install this library directly from PlatformIO registry or copy TinyDecisionTreeClassifier.h and TinyDecisionTreeClassifier.cpp manually.
+You can install this library directly from PlatformIO registry via library manager or copy TinyDecisionTreeClassifier.h and TinyDecisionTreeClassifier.cpp manually.
 Before writing your own code I recommend checking out the examples first. There is physical activity recognition example in examples/sitStandWalkClassificationOnNrf52840.
 
 ## Benchmarking
