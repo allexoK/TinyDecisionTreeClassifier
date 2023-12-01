@@ -12,6 +12,10 @@ Main features are:
 - Template usage allows to train 8-bit models, which boosts performance on 8-bit MCUs and significantly reduces RAM requirements.
 - Trained tree visualisation is supported via plot() method.
 
+## Installation
+The library can be installed via Arduino IDE library manager or via Platformio library manager:
+![Arduino IDE installation](img/libmanagerinstallation.png)
+![Platoformio installation](img/pioinst.png)
 
 ## Usage
 You can install this library directly from PlatformIO registry via library manager or copy TinyDecisionTreeClassifier.h and TinyDecisionTreeClassifier.cpp manually.
