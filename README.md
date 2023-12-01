@@ -17,10 +17,6 @@ The library can be installed via Arduino IDE library manager or via Platformio l
 ![Arduino IDE installation](img/libmanagerinstallation.png)
 ![Platoformio installation](img/pioinst.png)
 
-## Usage
-You can install this library directly from PlatformIO registry via library manager or copy TinyDecisionTreeClassifier.h and TinyDecisionTreeClassifier.cpp manually.
-Before writing your own code I recommend checking out the examples first. There is physical activity recognition example in examples/sitStandWalkClassificationOnNrf52840.
-
 ## Benchmarking
 The following picture shows the maximum training time on different mcus, the labels and data were generated using random() function. In practice training times are usually shorter. The number of training features was 5.
 ![Benchmarking](img/benchmarking.png)
