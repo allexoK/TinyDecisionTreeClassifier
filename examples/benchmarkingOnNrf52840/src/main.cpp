@@ -27,7 +27,6 @@ void benchmark(void){
   uint64_t benchmarkingTrainingTime = 0;
   uint64_t benchmarkingPredictionTime = 0;
   Serial.println("Bechmarking start");
-
   for(uint32_t i=0;i<BENCHMARK_AVERAGING;i++){
     TinyDecisionTreeClassifier<Treetype> clf(MAX_TREE_DEPTH,2);
     fillBuffersWithRandom();
