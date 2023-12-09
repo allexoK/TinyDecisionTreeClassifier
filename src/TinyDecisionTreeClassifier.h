@@ -17,6 +17,7 @@
 
 #ifndef __DECISION_TREE_CLASSIFIER_H
 #define __DECISION_TREE_CLASSIFIER_H
+#include <stdlib.h>
 #include <stdint.h>
 #include <stddef.h>
 
