@@ -15,20 +15,22 @@
  * limitations under the License.
  */
 
-#ifndef __DECISION_TREE_CLASSIFIER_H
-#define __DECISION_TREE_CLASSIFIER_H
+#ifndef DECISION_TREE_CLASSIFIER_H
+#define DECISION_TREE_CLASSIFIER_H
 #include <stdlib.h>
 #include <stdint.h>
 #include <stddef.h>
+#include "math.h"
+#include "float.h"
 
-// #define __DTR_DEBUG_
+// #define DTR_DEBUG_
 #ifdef ARDUINO
     #include "Arduino.h"
-    #define __DTR_DEBUG_PRINT(X) Serial.print(X);
-    #define __DTR_DEBUG_PRINTLN(X) Serial.println(X);
+    #define DTR_DEBUG_PRINT(X) Serial.print(X);
+    #define DTR_DEBUG_PRINTLN(X) Serial.println(X);
 #else
-    #define __DTR_DEBUG_PRINT(X);
-    #define __DTR_DEBUG_PRINTLN(X);
+    #define DTR_DEBUG_PRINT(X);
+    #define DTR_DEBUG_PRINTLN(X);
 #endif
 
 #define CANT_SPLIT_ALL_THE_SAMPLES_HAVE_THE_SAME_VALUE  -1

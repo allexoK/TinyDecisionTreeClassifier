@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-#ifndef __DECISION_TREE_CLASSIFIER_CPP
-#define __DECISION_TREE_CLASSIFIER_CPP
+#ifndef DECISION_TREE_CLASSIFIER_CPP
+#define DECISION_TREE_CLASSIFIER_CPP
 #include "TinyDecisionTreeClassifier.h"
-#include "math.h"
 
-template <typename T>
+template < typename T >
 TinyDecisionTreeClassifier<T>::TinyDecisionTreeClassifier(uint16_t maxDepth, uint16_t minSamplesSplit){
     this->maxDepth=maxDepth;
     this->minSamplesSplit=minSamplesSplit;
 };
 
 // number of rows is the same for both
-template <typename T>
+template < typename T >
 void TinyDecisionTreeClassifier<T>::fit(T** X,T** Y, uint32_t rows,uint32_t cols){
     if(trained){
         root->cleanup();
@@ -43,30 +42,30 @@ void TinyDecisionTreeClassifier<T>::fit(T** X,T** Y, uint32_t rows,uint32_t cols
     trained=true;
 };
 
-template <typename T>
+template < typename T >
 void TinyDecisionTreeClassifier<T>::plot(void){
     plot(root,0);
 }
 
-template <typename T>
+template < typename T >
 void TinyDecisionTreeClassifier<T>::plot(Node* node,uint32_t depth){
     if(node->thReady){
         for(uint32_t i=0;i<depth;i++){
-            __DTR_DEBUG_PRINT("               ");
+            DTR_DEBUG_PRINT("               ");
         }
-        __DTR_DEBUG_PRINT("if(X[");
-        __DTR_DEBUG_PRINT(node->nodeThColumn);
-        __DTR_DEBUG_PRINT("]<=");
-        __DTR_DEBUG_PRINT(node->nodeTh);
-        __DTR_DEBUG_PRINTLN(")");
+        DTR_DEBUG_PRINT("if(X[");
+        DTR_DEBUG_PRINT(node->nodeThColumn);
+        DTR_DEBUG_PRINT("]<=");
+        DTR_DEBUG_PRINT(node->nodeTh);
+        DTR_DEBUG_PRINTLN(")");
     }
     if(node->decisionReady){
         for(uint32_t i=0;i<depth;i++){
-            __DTR_DEBUG_PRINT("               ");
+            DTR_DEBUG_PRINT("               ");
         }
-        __DTR_DEBUG_PRINT("Y=(");
-        __DTR_DEBUG_PRINT(node->decision);
-        __DTR_DEBUG_PRINTLN(")");
+        DTR_DEBUG_PRINT("Y=(");
+        DTR_DEBUG_PRINT(node->decision);
+        DTR_DEBUG_PRINTLN(")");
     }
     
     if(node->children[0]!=NULL){
@@ -76,13 +75,13 @@ void TinyDecisionTreeClassifier<T>::plot(Node* node,uint32_t depth){
     }
 }
 
-template <typename T>
+template < typename T >
 T TinyDecisionTreeClassifier<T>::predict(T* X){
     if(!trained)return 0;
     return root->decide(X);
 }
 
-template <typename T>
+template < typename T >
 float TinyDecisionTreeClassifier<T>::score(T** X,T** Y,uint32_t rows){
     float score = 0;
     for(uint32_t i=0;i<rows;i++){
@@ -91,52 +90,52 @@ float TinyDecisionTreeClassifier<T>::score(T** X,T** Y,uint32_t rows){
     return score/rows;
 }
 
-template <typename T>
+template < typename T >
 TinyDecisionTreeClassifier<T>::Node::Node(uint16_t maxDepth, uint16_t minSamplesSplit){
     this->maxDepth = maxDepth;
     this->minSamplesSplit = minSamplesSplit;
 }
 
-template <typename T>
+template < typename T >
 int16_t TinyDecisionTreeClassifier<T>::Node::recurcisiveFit(T** X,T** Y, RowsSubIndexes* rsi, uint32_t cols, uint32_t currentDepth){
     UniqueValues uv;
-    #ifdef __DTR_DEBUG_
-    __DTR_DEBUG_PRINTLN();
-    __DTR_DEBUG_PRINTLN("Recursive fit:");
+    #ifdef DTR_DEBUG_
+    DTR_DEBUG_PRINTLN();
+    DTR_DEBUG_PRINTLN("Recursive fit:");
     for(uint32_t i=0;i<rsi->size;i++){
         for(uint32_t j=0;j<cols;j++){
-            __DTR_DEBUG_PRINT(X[rsi->indexes[i]][j]);
-            __DTR_DEBUG_PRINT(' ');
+            DTR_DEBUG_PRINT(X[rsi->indexes[i]][j]);
+            DTR_DEBUG_PRINT(' ');
         }
-        __DTR_DEBUG_PRINT("-> ");
-        __DTR_DEBUG_PRINTLN(Y[rsi->indexes[i]][0]);
+        DTR_DEBUG_PRINT("-> ");
+        DTR_DEBUG_PRINTLN(Y[rsi->indexes[i]][0]);
     }
     #endif
     countUniqueValuesAndOccurances(Y,rsi,0,&uv);
     if(uv.uniqueValuesSize==1){
         decision = uv.uniqueValues[0];
         decisionReady = true;
-        #ifdef __DTR_DEBUG_
-        __DTR_DEBUG_PRINT("Only unique class, finish splitting, decision is ");
-        __DTR_DEBUG_PRINTLN(decision);
+        #ifdef DTR_DEBUG_
+        DTR_DEBUG_PRINT("Only unique class, finish splitting, decision is ");
+        DTR_DEBUG_PRINTLN(decision);
         #endif
         return 0;
     }
     else if (rsi->size<minSamplesSplit){
         decision = getMajorClass(&uv);
         decisionReady = true;
-        #ifdef __DTR_DEBUG_
-        __DTR_DEBUG_PRINTLN("Length of X and Y is less than min sample split, decision is ");
-        __DTR_DEBUG_PRINTLN(decision);
+        #ifdef DTR_DEBUG_
+        DTR_DEBUG_PRINTLN("Length of X and Y is less than min sample split, decision is ");
+        DTR_DEBUG_PRINTLN(decision);
         #endif
         return 0;
     }
     else if (currentDepth == maxDepth){
         decision = getMajorClass(&uv);
         decisionReady = true;
-        #ifdef __DTR_DEBUG_
-        __DTR_DEBUG_PRINT("Max depth reached, decision is ");
-        __DTR_DEBUG_PRINTLN(decision);
+        #ifdef DTR_DEBUG_
+        DTR_DEBUG_PRINT("Max depth reached, decision is ");
+        DTR_DEBUG_PRINTLN(decision);
         #endif
         return 0;
     }
@@ -164,7 +163,7 @@ int16_t TinyDecisionTreeClassifier<T>::Node::recurcisiveFit(T** X,T** Y, RowsSub
     return 0;
 }
 
-template <typename T>
+template < typename T >
 int16_t TinyDecisionTreeClassifier<T>::Node::getBestSplit(T** X,T** Y, RowsSubIndexes* rsi, uint32_t cols, RowsSubIndexes* rsiAboveTh, RowsSubIndexes* rsiBelowTh, T* threshold, uint32_t* column){
     float entropyBeforeTheSplit=computeEntropy(Y,rsi);
     float entropyAbove;
@@ -172,7 +171,7 @@ int16_t TinyDecisionTreeClassifier<T>::Node::getBestSplit(T** X,T** Y, RowsSubIn
     float infoGain;//A few operations can be saved by using Entropy directly without computing Y entropy
 
     //finding max
-    float bestInfoGain=-__FLT_MAX__;
+    float bestInfoGain=-FLT_MAX;
     RowsSubIndexes currentRsiBelowTh;
     RowsSubIndexes currentRsiAboveTh;
 
@@ -231,36 +230,36 @@ int16_t TinyDecisionTreeClassifier<T>::Node::getBestSplit(T** X,T** Y, RowsSubIn
         free(sorted);
         free(idxs);
     }
-    if(bestInfoGain==-__FLT_MAX__){
-        #ifdef __DTR_DEBUG_
-        __DTR_DEBUG_PRINT("Can't split all the samples have the same value");
+    if(bestInfoGain==-FLT_MAX){
+        #ifdef DTR_DEBUG_
+        DTR_DEBUG_PRINT("Can't split all the samples have the same value");
         #endif
         return CANT_SPLIT_ALL_THE_SAMPLES_HAVE_THE_SAME_VALUE;
     }
-    #ifdef __DTR_DEBUG_
-    __DTR_DEBUG_PRINT("Best split in column ");
-    __DTR_DEBUG_PRINT(*column);
-    __DTR_DEBUG_PRINT(" with threhold ");
-    __DTR_DEBUG_PRINT(*threshold);
-    __DTR_DEBUG_PRINT(" and infogain ");
-    __DTR_DEBUG_PRINTLN(bestInfoGain);
-    __DTR_DEBUG_PRINT("Data below thehold ");
+    #ifdef DTR_DEBUG_
+    DTR_DEBUG_PRINT("Best split in column ");
+    DTR_DEBUG_PRINT(*column);
+    DTR_DEBUG_PRINT(" with threhold ");
+    DTR_DEBUG_PRINT(*threshold);
+    DTR_DEBUG_PRINT(" and infogain ");
+    DTR_DEBUG_PRINTLN(bestInfoGain);
+    DTR_DEBUG_PRINT("Data below thehold ");
     for(uint32_t k=0;k<rsiBelowTh->size;k++){
-        __DTR_DEBUG_PRINT(" ");
-        __DTR_DEBUG_PRINT(X[rsiBelowTh->indexes[k]][*column]);
+        DTR_DEBUG_PRINT(" ");
+        DTR_DEBUG_PRINT(X[rsiBelowTh->indexes[k]][*column]);
     }
-    __DTR_DEBUG_PRINTLN();
-    __DTR_DEBUG_PRINT("Data above thehold ");
+    DTR_DEBUG_PRINTLN();
+    DTR_DEBUG_PRINT("Data above thehold ");
     for(uint32_t k=0;k<rsiAboveTh->size;k++){
-        __DTR_DEBUG_PRINT(" ");
-        __DTR_DEBUG_PRINT(X[rsiAboveTh->indexes[k]][*column]);
+        DTR_DEBUG_PRINT(" ");
+        DTR_DEBUG_PRINT(X[rsiAboveTh->indexes[k]][*column]);
     }
-    __DTR_DEBUG_PRINTLN();
+    DTR_DEBUG_PRINTLN();
     #endif
     return 0;
 }
 
-template <typename T>
+template < typename T >
 float TinyDecisionTreeClassifier<T>::Node::computeEntropy(T** Y, RowsSubIndexes* rsi){
     float entropy=0;
     if(rsi->size<2){
@@ -277,7 +276,7 @@ float TinyDecisionTreeClassifier<T>::Node::computeEntropy(T** Y, RowsSubIndexes*
     return entropy;
 }
 
-template <typename T>
+template < typename T >
 void TinyDecisionTreeClassifier<T>::Node::countUniqueValuesAndOccurances(T ** ar, RowsSubIndexes* rsi, uint32_t column, UniqueValues* uv){
     T* sorted = (T *)malloc(rsi->size*sizeof(T));
 
@@ -306,7 +305,7 @@ void TinyDecisionTreeClassifier<T>::Node::countUniqueValuesAndOccurances(T ** ar
     free(sorted);
 }
 
-template <typename T>
+template < typename T >
 void TinyDecisionTreeClassifier<T>::Node::qsort(T *ar, uint32_t n) 
 {
     if (n < 2)
@@ -333,7 +332,7 @@ void TinyDecisionTreeClassifier<T>::Node::qsort(T *ar, uint32_t n)
     qsort(l, ar + n - l);
 }
 
-template <typename T>
+template < typename T >
 void TinyDecisionTreeClassifier<T>::Node::qsort(T *ar, uint32_t *idx, uint32_t n) 
 {
     if (n < 2)
@@ -371,7 +370,7 @@ void TinyDecisionTreeClassifier<T>::Node::qsort(T *ar, uint32_t *idx, uint32_t n
     qsort(l, li, ar + n - l);
 }
 
-template <typename T>
+template < typename T >
 T TinyDecisionTreeClassifier<T>::Node::getMajorClass(UniqueValues* uv){
     uint32_t maxOcc=0;
     uint32_t maxOccIdx=0; 
@@ -384,7 +383,7 @@ T TinyDecisionTreeClassifier<T>::Node::getMajorClass(UniqueValues* uv){
     return uv->uniqueValues[maxOccIdx];
 }
 
-template <typename T>
+template < typename T >
 T TinyDecisionTreeClassifier<T>::Node::decide(T* X){
     if(decisionReady)return decision;
     else{
@@ -397,22 +396,22 @@ T TinyDecisionTreeClassifier<T>::Node::decide(T* X){
                 }
             }
             else{
-                #ifdef __DTR_DEBUG_
-                __DTR_DEBUG_PRINTLN("Warning node have no children and no decision,returning 0");
+                #ifdef DTR_DEBUG_
+                DTR_DEBUG_PRINTLN("Warning node have no children and no decision,returning 0");
                 #endif
                 return 0;
             }
         }
         else{
-            #ifdef __DTR_DEBUG_
-            __DTR_DEBUG_PRINTLN("Warning node have no threhold and no decision,returning 0");
+            #ifdef DTR_DEBUG_
+            DTR_DEBUG_PRINTLN("Warning node have no threhold and no decision,returning 0");
             #endif
             return 0;
         }
     }
 }
 
-template <typename T>
+template < typename T >
 void TinyDecisionTreeClassifier<T>::Node::cleanup(){
     if(children[0]!=NULL){
         for(uint32_t i=0;i<2;i++){
