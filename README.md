@@ -45,3 +45,9 @@ I managed to classify activity/no activity with this code. You can check the tre
 ### sitStandWalkClassificationOnNrf52840
 
 Again, accelerometer is required. This time there are 3 classes and the time interval is around 150s. It is possible to classify sit/walk/stand with this code, however while recording the data you should ensure that the accelerometer is in different positions during each training period.(So it is not classifying based on mean value only). If you want to change the number of classes, use TREE_NUMBER_OF_CLASSES
+
+
+### accelerometerMachineryFailureRecognitionNrf52840
+In this example the accelerometer sampling frequency is increased to 50 Hz. The Nrf52840 recognized fan failure state based on data it learned during the first two minutes of training.
+
+[Arduino-compatible machinery failure recognition on the edge with TinyDecisionTreeClassifier](https://www.youtube.com/watch?v=4Kl571AXN1U)
